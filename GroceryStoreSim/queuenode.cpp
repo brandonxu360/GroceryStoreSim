@@ -38,3 +38,11 @@ void QueueNode::setPNext(QueueNode* next) {
 	mPNext = next;
 }
 
+// Function to display a single customer in an ascii box (NOT CURRENTLY USED)
+void QueueNode::displayNode() {
+	std::cout << "+------------------+" << std::endl;
+	std::cout << "| Customer #" << std::setw(2) << mPData->getCustomerNum() << "     |" << std::endl;
+	std::cout << "| Service Time: " << std::setw(2) << mPData->getServiceTime() << "m |" << std::endl;
+	std::cout << "| # of Items:   " << std::setw(2) << mPGroceryList->getSize() << "  |" << std::endl;
+	std::cout << "+------------------+" << std::endl;
+}

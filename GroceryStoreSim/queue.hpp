@@ -22,22 +22,23 @@ public: // Member functions
 	void dequeue(); // Delete node from front of queue
 	void printQueue(); // Print attributes of each customer represented by each QueueNode
 
-	// Get arrival times (random) for express/normal lanes
-	int getExpressArrival();
-	int getNormalArrival();
+	void printQueueNice(); // Print queue horizontally in a visually appealing manner
+
+	// Getters
+	QueueNode* getPHead();
+	int getSize();
 
 	// Get service time based on number of items in cart
 	int getServiceTime(int numItems);
 
 	// Check if the time has reached when the head node should be dequeued
-	void checkQueue(Queue* myQueue, int time);
+	void checkQueue(int time);
 
-	// Main executable logic
-	void runSim(int time); // Simulate two grocery lines (queues) 
 
 private:
 
 	QueueNode* mPHead;
 	QueueNode* mPTail;
+	int mSize; // Number of nodes in queue
 };
 

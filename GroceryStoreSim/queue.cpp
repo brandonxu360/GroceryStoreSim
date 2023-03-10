@@ -13,6 +13,7 @@ Queue::Queue() {
 	// Initialize list to nullptr (empty)
 	mPHead = nullptr;
 	mPTail = nullptr;
+	mSize = 0;
 }
 
 // Enqueue operation (insert node containing inputted Data object at the end of the queue)
@@ -36,6 +37,7 @@ bool Queue::enqueue(int customerNum, int serviceTime, LinkedList* gList) {
 		if (newNode != nullptr) { // Check if memory was allocated for the new QueueNode object
 
 			success = true; // Memory was successfully allocated for the new QueueNode and Data objects
+			mSize++;
 
 			if (mPHead == nullptr) { // Empty queue
 				mPHead = mPTail = newNode;
@@ -63,6 +65,8 @@ void Queue::dequeue() {
 		// Delete both the Data object pointed to by the target node and the node itself
 		delete target->getPData();
 		delete target;
+
+		mSize--;
 	}
 
 	// If the list is empty (mPHead == nullptr), then nothing needs to be done
@@ -80,13 +84,52 @@ void Queue::printQueue() {
 	}
 }
 
-// Returns a random number from 1-5 to represent the arrival time of a customer in the express lane
-int Queue::getExpressArrival() {
-	return rand() % 5 + 1;
+// Print queue horizontally in a visually appealing manner
+void Queue::printQueueNice() {
+
+	QueueNode* iterator = mPHead; // Set iterator node to head
+
+	for (int i = 0; i < mSize; i++) { // Print top header
+		std::cout << "+------------------+ ";
+	}
+
+	std::cout << std::endl;
+
+	for (int i = 0; i < mSize; i++) { // Print customer numbers
+		std::cout << "| Customer #" << std::setw(2) << std::right << iterator->getPData()->getCustomerNum() << "     | ";
+		iterator = iterator->getPNext();
+	}
+
+	std::cout << std::endl;
+	iterator = mPHead; // Reset iterator
+
+	for (int i = 0; i < mSize; i++) {
+		std::cout << "| Service Time: " << std::setw(2) << std::left << iterator->getPData()->getServiceTime() << "m| ";
+		iterator = iterator->getPNext();
+	}
+
+	std::cout << std::endl;
+	iterator = mPHead; // Reset iterator again
+
+	for (int i = 0; i < mSize; i++) {
+		std::cout << "| # of Items: " << std::setw(3) << std::right << iterator->getItemList()->getSize() << "  | ";
+		iterator = iterator->getPNext();
+	}
+	
+	std::cout << std::endl;
+
+	for (int i = 0; i < mSize; i++) {
+		std::cout << "+------------------+ ";
+	}
+	
 }
-// Returns a random number from 3-8 to represent the arrival time of a customer in the normal lane
-int Queue::getNormalArrival() {
-	return rand() % 8 + 3;
+
+// Getters
+QueueNode* Queue::getPHead() {
+	return mPHead;
+}
+int Queue::getSize() {
+	return mSize;
 }
 
 // Get service time based on number of items in cart
@@ -94,70 +137,18 @@ int Queue::getServiceTime(int numItems) {
 	return numItems + 2;
 }
 
-void Queue::checkQueue(Queue* myQueue, int time) {
-	if (myQueue->mPHead != nullptr) {
-		QueueNode* pMem = myQueue->mPHead;
-		int num = myQueue->mPHead->getPData()->getServiceTime();
+void Queue::checkQueue(int time) {
+	if (this->mPHead != nullptr) {
+		QueueNode* pMem = this->mPHead;
+		int num = this->mPHead->getPData()->getServiceTime();
 		if (pMem->getPData()->getServiceTime() != 0) {
-			myQueue->mPHead->getPData()->setServiceTime(num - 1);
+			this->mPHead->getPData()->setServiceTime(num - 1);
 		}
 		else {
-			myQueue->dequeue();
+			// Print out indicating customer is done checking out
+			std::cout << "Customer " << mPHead->getPData()->getCustomerNum() << " has finished checking out" << std::endl;
+			this->dequeue();
 		}
 	}
 }
 
-// Main executable logic - simulate two grocery lines (queues)
-void Queue::runSim(int time) {
-	Queue expressQ, normalQ;
-	int elapsedTime = 0; // Elased time to keep track of time during simulation
-
-	// Customer numbers
-	int expressCustomerNum = 1;
-	int normalCustomerNum = 1;
-
-	// Get initial random arrival times for express and normal lanes
-	int expressArrival = getExpressArrival();
-	int normalArrival = getNormalArrival();
-
-	// Array of items availible for purchase in store
-	std::string itemArray[25] = { "Banana", "Frozen Meal", "Apple", "Steak", "Ground Beef", "Soap" };
-
-	// Time loop
-	while (elapsedTime <= time) {
-
-		//ENQUEUE 
-		if (elapsedTime == expressArrival) { // Time that a customer will arrive in express lane has been reached
-			LinkedList* expressCart = new LinkedList(itemArray, 6);
-			expressQ.enqueue(expressCustomerNum, getServiceTime(expressCart->getSize()), expressCart);
-
-			expressArrival += getExpressArrival(); // Set next arrival time for express lane by incrementing by express lane random time
-			expressCustomerNum++;
-		}
-		if (elapsedTime == normalArrival) { // Time that a customer will arrive in normal lane has been reached
-			LinkedList* normalCart = new LinkedList(itemArray, 6);
-			normalQ.enqueue(normalCustomerNum, getServiceTime(normalCart->getSize()), normalCart);
-
-			normalArrival += getNormalArrival(); // Set next arrival time for normal lane by incrementing by normal lane random time
-			normalCustomerNum++;
-		}
-
-		//DEQUEUE
-		checkQueue(&expressQ, elapsedTime);
-		checkQueue(&normalQ, elapsedTime);
-
-		// Display entire queues every 10 minutes
-		if (elapsedTime != 0 && elapsedTime % 10 == 0) {
-			system("cls");
-			std::cout << "Express Lane: " << std::endl;
-			expressQ.printQueue();
-			std::cout << std::endl << "Normal Lane: " << std::endl;
-			normalQ.printQueue();
-			std::cout << std::endl << "Click any key to continue: " << std::endl;
-			std::cin.get();
-		}
-
-		elapsedTime++;
-	}
-	
-}

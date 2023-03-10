@@ -28,6 +28,9 @@ public: // Member functions
 	// Setters
 	void setPNext(QueueNode* next);
 
+	void displayNode(); // Function to display a single customer in an ascii box (NOT CURRENTLY USED)
+
+
 private:
 
 	Data* mPData;    // The memory for Data will need to be allocated on the heap as well!

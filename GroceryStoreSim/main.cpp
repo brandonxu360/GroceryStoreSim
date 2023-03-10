@@ -10,12 +10,15 @@
 #include "data.hpp"
 #include "linkedlist.hpp"
 #include "queue.hpp"
+#include "grocerysimwrapper.hpp"
 
 int main(void) {
 
-	Queue myQueue; // Initialize the queue object
-
 	srand(time(NULL)); // Initialize random seed
+
+	std::string itemArray[25] = { "Banana", "Frozen Meal", "Apple", "Steak", "Ground Beef", "Soap" };
+
+	GrocerySimWrapper myStore(itemArray);
 
 	// Get minutes to run simulation for
 	int time;
@@ -23,7 +26,7 @@ int main(void) {
 	std::cin >> time;
 	system("cls");
 
-	myQueue.runSim(time); // Run the simulation with the inputted time
+	myStore.runSimulation(time); // Run the simulation with the inputted time
 
 	return 0;
 }

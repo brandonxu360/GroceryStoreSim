@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="data.hpp" />
+    <ClInclude Include="grocerysimwrapper.hpp" />
     <ClInclude Include="header.hpp" />
     <ClInclude Include="linkedlist.hpp" />
     <ClInclude Include="linkedlistnode.hpp" />
@@ -136,6 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="data.cpp" />
+    <ClCompile Include="grocerysimwrapper.cpp" />
     <ClCompile Include="linkedlist.cpp" />
     <ClCompile Include="linkedlistnode.cpp" />
     <ClCompile Include="main.cpp" />

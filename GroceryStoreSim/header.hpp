@@ -15,5 +15,8 @@
 #include <fstream>
 #include <stdlib.h>
 #include <time.h>
+#include <iomanip> // include the <iomanip> header for setw()
+#include <chrono> // for std::chrono functions
+#include <thread> // for std::this_thread::sleep_for
 
 
