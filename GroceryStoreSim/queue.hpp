@@ -17,7 +17,10 @@ public: // Member functions
 	
 	Queue(); // Default constructor
 
+	~Queue(); // Destructor to delete each QueueNode and its corresponding Data object
+
 	// Queue operations
+	bool isEmpty(); // Returns true if empty, false otherwise (based on size attribute)
 	bool enqueue(int customerNum, int serviceTime, LinkedList* gList); // Insert node at end of queue
 	void dequeue(); // Delete node from front of queue
 	void printQueue(); // Print attributes of each customer represented by each QueueNode

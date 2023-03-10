@@ -19,7 +19,9 @@ public: // Member functions
 	QueueNode(); // Default constructor
 
 	QueueNode(Data* data, LinkedList* gList); // Constructor for provided pointer to Data object
-	 
+	
+	~QueueNode(); // Destructor to free dynamic memory allocated for the Data object and grocery list LinkedList object
+
 	// Getters
 	Data* getPData();
 	QueueNode* getPNext();

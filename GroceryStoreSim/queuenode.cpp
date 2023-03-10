@@ -22,6 +22,11 @@ QueueNode::QueueNode(Data* data, LinkedList* gList) {
 	mPGroceryList = gList; // Set pointer to the LinkedList given
 }
 
+QueueNode::~QueueNode() {
+	delete mPData; // Free memory for Data object
+	delete mPGroceryList; // Free memory for grocery list LinkedList object
+}
+
 // Getters
 Data* QueueNode::getPData() {
 	return mPData;

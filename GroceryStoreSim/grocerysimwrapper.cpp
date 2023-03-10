@@ -19,6 +19,22 @@ GrocerySimWrapper::GrocerySimWrapper(const std::string itemList[]) {
 
 }
 
+GrocerySimWrapper::~GrocerySimWrapper() {
+	// Free any dynamically allocated memory for the queues
+	while (!mExpress.isEmpty()) {
+		QueueNode* customer = mExpress.getPHead();
+		mExpress.dequeue();
+		delete customer->getItemList();
+		delete customer;
+	}
+	while (!mNormal.isEmpty()) {
+		QueueNode* customer = mNormal.getPHead();
+		mNormal.dequeue();
+		delete customer->getItemList();
+		delete customer;
+	}
+}
+
 // Display the express and normal queues horizontally using the printQueueNice functions of the Queue class
 void GrocerySimWrapper::displayStore() {
 
@@ -66,7 +82,7 @@ void GrocerySimWrapper::runSimulation(int time) {
 		if (elapsedTime == expressArrival) { // Time that a customer will arrive in express lane has been reached
 
 			// Print to state changes that a customer has arrived in the express lane
-			std::cout << "Customer " << customerNumber << " has joined the express line" << std::endl;
+			std::cout << "* Customer " << customerNumber << " has joined the express line" << std::endl;
 
 			LinkedList* expressCart = new LinkedList(mItemList, 6); // Create a random cart for the new customer
 			mExpress.enqueue(customerNumber, mExpress.getServiceTime(expressCart->getSize()), expressCart);
@@ -77,7 +93,7 @@ void GrocerySimWrapper::runSimulation(int time) {
 		if (elapsedTime == normalArrival) { // Time that a customer will arrive in normal lane has been reached
 
 			// Print to state changes that a customer has arrived in the normal lane
-			std::cout << "Customer " << customerNumber << " has joined the normal line" << std::endl;
+			std::cout << "* Customer " << customerNumber << " has joined the normal line" << std::endl;
 
 			LinkedList* normalCart = new LinkedList(mItemList, 6); // Create a random cart for the new customer
 			mNormal.enqueue(customerNumber, mNormal.getServiceTime(normalCart->getSize()), normalCart);

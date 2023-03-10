@@ -15,6 +15,8 @@ public:
 
 	GrocerySimWrapper(const std::string itemList[]); // Default constructor - takes an item list
 
+	~GrocerySimWrapper(); // Destructor to free any dynamically allocated memory for the queues
+
 	void displayStore(); // Display the store state (queues and change of state messages) visually to the user
 
 	void displayTime(int minutes); // Convert minutes into clock time (hr:mn) and print to display

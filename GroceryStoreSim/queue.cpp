@@ -16,6 +16,25 @@ Queue::Queue() {
 	mSize = 0;
 }
 
+// Destructor
+Queue::~Queue() {
+	// Iterate through the queue, deleting each QueueNode and its corresponding Data object
+	QueueNode* curr = mPHead;
+
+	while (curr != nullptr) {
+		QueueNode* next = curr->getPNext();
+		delete curr->getPData();
+		delete curr;
+		curr = next;
+	}
+}
+
+// Returns true if empty, false otherwise (based on size attribute)
+bool Queue::isEmpty() {
+	return mSize == 0;
+}
+
+
 // Enqueue operation (insert node containing inputted Data object at the end of the queue)
 bool Queue::enqueue(int customerNum, int serviceTime, LinkedList* gList) {
 	bool success = false;
@@ -63,7 +82,6 @@ void Queue::dequeue() {
 		mPHead = target->getPNext(); // Set the head to the next node in the list
 
 		// Delete both the Data object pointed to by the target node and the node itself
-		delete target->getPData();
 		delete target;
 
 		mSize--;
@@ -146,7 +164,7 @@ void Queue::checkQueue(int time) {
 		}
 		else {
 			// Print out indicating customer is done checking out
-			std::cout << "Customer " << mPHead->getPData()->getCustomerNum() << " has finished checking out" << std::endl;
+			std::cout << "* Customer " << mPHead->getPData()->getCustomerNum() << " has finished checking out" << std::endl;
 			this->dequeue();
 		}
 	}
