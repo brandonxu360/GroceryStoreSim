@@ -85,13 +85,12 @@ bool LinkedList::insertAtEnd(std::string newItem) {
 std::ostream& operator<<(std::ostream& os, LinkedList& list) {
 	LinkedListNode* curr = list.getPHead(); // Iterator
 
-	os << "[";
-	while (curr != list.getPTail())
-	{
+	os << "["; // Start of list bracket
+	while (curr != list.getPTail()) { // Iterate through entire list
 		os << curr->getItem() << ", ";
 		curr = curr->getPNext();
 	}
-	os << curr->getItem() << "]" << std::endl << std::endl;
+	os << curr->getItem() << "]" << std::endl << std::endl; // Print last time and close the list bracket
 
 	return os;
 }

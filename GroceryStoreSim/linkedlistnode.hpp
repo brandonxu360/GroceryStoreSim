@@ -23,10 +23,10 @@ public:
 
 	// Getters
 	LinkedListNode* getPNext();
-	std::string getItem();
+	std::string getItem(); // Return the name of the item stored in the node
 
 private:
 
-	std::string mItem;
+	std::string mItem; // Each node represents a grocery item, so it contains the name of the item
 	LinkedListNode* mPNext;
 };

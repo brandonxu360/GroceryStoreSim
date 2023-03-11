@@ -11,8 +11,27 @@
 #include "linkedlist.hpp"
 #include "queue.hpp"
 #include "grocerysimwrapper.hpp"
+#include "test.hpp"
 
 int main(void) {
+
+	// Testing
+	Test test;
+
+	std::cout << "TEST CASES" << std::endl << std::endl;
+	test.testEnqueueOnEmptyQueue();
+	std::cout << std::endl;
+	test.testEnqueueOnOneNodeQueue();
+	std::cout << std::endl;
+	test.testDequeueOnOneNodeQueue();
+	std::cout << std::endl;
+	test.testDequeueOnTwoNodeQueue();
+	/*std::cout << std::endl;
+	test.testSimulationFor24Hours();*/
+
+	std::cout << std::endl;
+	system("pause");
+	std::cout << std::endl;
 
 	srand(time(NULL)); // Initialize random seed
 

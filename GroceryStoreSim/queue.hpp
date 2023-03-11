@@ -31,11 +31,8 @@ public: // Member functions
 	QueueNode* getPHead();
 	int getSize();
 
-	// Get service time based on number of items in cart
-	int getServiceTime(int numItems);
-
 	// Check if the time has reached when the head node should be dequeued
-	void checkQueue(int time);
+	void checkQueue();
 
 
 private:

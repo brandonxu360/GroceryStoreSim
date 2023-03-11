@@ -22,7 +22,7 @@ public:
 	~LinkedList(); // Destructor (deletes all nodes)
 
 	// Getters
-	int getSize();
+	int getSize(); // Return number of nodes in the list
 	LinkedListNode* getPHead();
 	LinkedListNode* getPTail();
 
@@ -33,7 +33,7 @@ private:
 
 	LinkedListNode* mPHead;
 	LinkedListNode* mPTail;
-	int mSize;
+	int mSize; // Number of nodes in the list
 
 };
 

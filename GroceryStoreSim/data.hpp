@@ -18,8 +18,6 @@ public: // Member functions
 
 	Data(int customerNum, int serviceTime, int totalTime); // Constructor for customer number, service time, and total time input
 
-	~Data(); // Destructor
-
 	//getters
 	int getCustomerNum();
 	int getServiceTime();

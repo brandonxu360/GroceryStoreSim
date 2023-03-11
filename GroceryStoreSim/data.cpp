@@ -23,9 +23,6 @@ Data::Data(int customerNum, int serviceTime, int totalTime) {
 	mTotalTime = totalTime;
 }
 
-// Destructor
-Data::~Data() {}
-
 // Getters
 int Data::getCustomerNum() {
 	return mCustomerNumber;

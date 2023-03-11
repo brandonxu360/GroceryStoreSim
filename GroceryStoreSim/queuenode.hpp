@@ -37,5 +37,5 @@ private:
 
 	Data* mPData;    // The memory for Data will need to be allocated on the heap as well!
 	QueueNode* mPNext;
-	LinkedList* mPGroceryList;
+	LinkedList* mPGroceryList; // List of items the customer (QueueNode object) has in their cart
 };

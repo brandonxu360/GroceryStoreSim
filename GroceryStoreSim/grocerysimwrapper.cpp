@@ -9,6 +9,7 @@
 
 #include "grocerysimwrapper.hpp"
 
+// Constructor that takes in an itemList array
 GrocerySimWrapper::GrocerySimWrapper(const std::string itemList[]) {
 
     // Initialize the member item list using the given item list
@@ -17,22 +18,6 @@ GrocerySimWrapper::GrocerySimWrapper(const std::string itemList[]) {
         mItemList[i] = itemList[i];
     }
 
-}
-
-GrocerySimWrapper::~GrocerySimWrapper() {
-	// Free any dynamically allocated memory for the queues
-	while (!mExpress.isEmpty()) {
-		QueueNode* customer = mExpress.getPHead();
-		mExpress.dequeue();
-		delete customer->getItemList();
-		delete customer;
-	}
-	while (!mNormal.isEmpty()) {
-		QueueNode* customer = mNormal.getPHead();
-		mNormal.dequeue();
-		delete customer->getItemList();
-		delete customer;
-	}
 }
 
 // Display the express and normal queues horizontally using the printQueueNice functions of the Queue class
@@ -50,10 +35,15 @@ void GrocerySimWrapper::displayStore() {
 	
 }
 
+// Convert time from minutes to hr:mn format and displays to console
 void GrocerySimWrapper::displayTime(int minutes) {
 	std::cout << "CURRENT TIME: " << std::setfill('0') << std::setw(2) << minutes / 60 << ":" << std::setw(2) << minutes % 60 << std::setfill(' ') << std::endl;
 }
 
+// Get service time based on number of items in cart
+int GrocerySimWrapper::getServiceTime(int numItems) {
+	return numItems + 2;
+}
 
 // Main executable logic - simulate two grocery lines (queues)
 void GrocerySimWrapper::runSimulation(int time) {
@@ -85,7 +75,7 @@ void GrocerySimWrapper::runSimulation(int time) {
 			std::cout << "* Customer " << customerNumber << " has joined the express line" << std::endl;
 
 			LinkedList* expressCart = new LinkedList(mItemList, 6); // Create a random cart for the new customer
-			mExpress.enqueue(customerNumber, mExpress.getServiceTime(expressCart->getSize()), expressCart);
+			mExpress.enqueue(customerNumber,getServiceTime(expressCart->getSize()), expressCart);
 
 			expressArrival += rand() % 5 + 1; // Set next arrival time for express lane by incrementing by express lane random time
 			customerNumber++;
@@ -96,15 +86,15 @@ void GrocerySimWrapper::runSimulation(int time) {
 			std::cout << "* Customer " << customerNumber << " has joined the normal line" << std::endl;
 
 			LinkedList* normalCart = new LinkedList(mItemList, 6); // Create a random cart for the new customer
-			mNormal.enqueue(customerNumber, mNormal.getServiceTime(normalCart->getSize()), normalCart);
+			mNormal.enqueue(customerNumber, getServiceTime(normalCart->getSize()), normalCart);
 
 			normalArrival += rand() % 8 + 3; // Set next arrival time for normal lane by incrementing by normal lane random time
 			customerNumber++;
 		}
 
 		//	DEQUEUE CHECKS
-		mExpress.checkQueue(elapsedTime);
-		mNormal.checkQueue(elapsedTime);
+		mExpress.checkQueue();
+		mNormal.checkQueue();
 
 		std::cout << std::endl;
 
@@ -120,6 +110,10 @@ void GrocerySimWrapper::runSimulation(int time) {
 			mNormal.printQueue();
 		}
 
+		// COMMENT OUT 3 SECOND WAIT BLOCK BELOW AND UNCOMMENT THE PAUSE IF YOU WANT TO MOVE THROUGH SIMULATION MANUALLY
+		// system("pause");
+
+		// Wait for 3 seconds so the user can observe changes
 		std::cout << std::endl << "Next minute in..." << std::endl;
 		for (int i = 3; i > 0; i--) {
 			std::cout << i << "... ";

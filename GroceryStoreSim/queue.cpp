@@ -23,7 +23,6 @@ Queue::~Queue() {
 
 	while (curr != nullptr) {
 		QueueNode* next = curr->getPNext();
-		delete curr->getPData();
 		delete curr;
 		curr = next;
 	}
@@ -107,7 +106,7 @@ void Queue::printQueueNice() {
 
 	QueueNode* iterator = mPHead; // Set iterator node to head
 
-	for (int i = 0; i < mSize; i++) { // Print top header
+	for (int i = 0; i < mSize; i++) { // Print tops of boxes
 		std::cout << "+------------------+ ";
 	}
 
@@ -121,7 +120,7 @@ void Queue::printQueueNice() {
 	std::cout << std::endl;
 	iterator = mPHead; // Reset iterator
 
-	for (int i = 0; i < mSize; i++) {
+	for (int i = 0; i < mSize; i++) { // Print service times
 		std::cout << "| Service Time: " << std::setw(2) << std::left << iterator->getPData()->getServiceTime() << "m| ";
 		iterator = iterator->getPNext();
 	}
@@ -129,14 +128,14 @@ void Queue::printQueueNice() {
 	std::cout << std::endl;
 	iterator = mPHead; // Reset iterator again
 
-	for (int i = 0; i < mSize; i++) {
+	for (int i = 0; i < mSize; i++) { // Print number of items in each cart
 		std::cout << "| # of Items: " << std::setw(3) << std::right << iterator->getItemList()->getSize() << "  | ";
 		iterator = iterator->getPNext();
 	}
 	
 	std::cout << std::endl;
 
-	for (int i = 0; i < mSize; i++) {
+	for (int i = 0; i < mSize; i++) { // Print bottoms of boxes
 		std::cout << "+------------------+ ";
 	}
 	
@@ -150,22 +149,22 @@ int Queue::getSize() {
 	return mSize;
 }
 
-// Get service time based on number of items in cart
-int Queue::getServiceTime(int numItems) {
-	return numItems + 2;
-}
+// Checks if the head of the queue needs to be dequeued (service time has reached 0 - the customer is done checking out)
+void Queue::checkQueue() {
 
-void Queue::checkQueue(int time) {
-	if (this->mPHead != nullptr) {
+	if (this->mPHead != nullptr) { // Check that the list is not empty
+
 		QueueNode* pMem = this->mPHead;
-		int num = this->mPHead->getPData()->getServiceTime();
-		if (pMem->getPData()->getServiceTime() != 0) {
+		int num = this->mPHead->getPData()->getServiceTime(); // Get the service time of the head node and store in num variable
+
+		if (pMem->getPData()->getServiceTime() != 0) { // If the service time is not 0, then the customer is not done checking out - only decrease service time by 1 and exit function
 			this->mPHead->getPData()->setServiceTime(num - 1);
 		}
-		else {
+		else { // Customer is done checking out, so notify the user and dequeue the customer from the queue
+
 			// Print out indicating customer is done checking out
 			std::cout << "* Customer " << mPHead->getPData()->getCustomerNum() << " has finished checking out" << std::endl;
-			this->dequeue();
+			this->dequeue(); // Dequeue the customer 
 		}
 	}
 }
